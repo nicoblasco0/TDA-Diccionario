@@ -39,7 +39,7 @@ void recorrerDiccionario(tDiccionario* dic, Accion accion, void* param)
     }
 }
 
-int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem)
+int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem, Cmp cmp)
 {
     size_t hashValue, indice;
 
@@ -48,7 +48,7 @@ int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem)
     indice = hashValue % dic->capMax;
 
     //Ahora insertamos el elemento en esa lista
-    return listaInsertar(&(dic->ini[indice]), elem, tamElem);
+    return listaInsertaOrdenado(&(dic->ini[indice]), elem, tamElem, cmp);
 }
 
 int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp)
@@ -58,7 +58,7 @@ int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp)
     hashValue = dic->hashFunc(clave);
     indice = hashValue % dic->capMax;
 
-    return listaSacar(&(dic->ini[indice]), clave, cmp);
+    return listaSacarOrdenado(&(dic->ini[indice]), clave, cmp);
 }
 
 int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem, Cmp cmp)
@@ -68,5 +68,5 @@ int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem,
     hashValue = dic->hashFunc(clave);
     indice = hashValue % dic->capMax;
 
-    return listaObtener(&(dic->ini[indice]), pd, tamElem, cmp);
+    return listaObtenerOrdenado(&(dic->ini[indice]), pd, tamElem, cmp);
 }

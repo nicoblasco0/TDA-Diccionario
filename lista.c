@@ -19,6 +19,39 @@ void listaVaciar(tLista* pl)
 
 }
 
+int listaInsertaOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
+{
+    tNodo * nue;
+    int rc;
+///                        >
+    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+        pl = &(*pl)->sig;
+
+    if(*pl && !rc)
+        return 0; ///DUPLICADO
+
+    nue = (tNodo*)malloc(sizeof(tNodo));
+    if(!nue)
+    {
+        return 0; ///LISTA_LLENA
+    }
+    nue->info = malloc(tamElem);
+    if(!nue->info)
+    {
+        free(nue);
+        return 0; ///LISTA_LLENA
+    }
+
+    nue->tam = tamElem;
+    memcpy(nue->info, pd, tamElem);
+    nue->sig = *pl;
+
+    *pl = nue;
+
+    return 1; ///OK
+}
+
+/*
 int listaInsertar(tLista* pl, void* elem, size_t tamElem)
 {
     tNodo* nue = (tNodo*)malloc(sizeof(tNodo));
@@ -40,7 +73,7 @@ int listaInsertar(tLista* pl, void* elem, size_t tamElem)
 
     return TODO_OK;
 }
-
+*/
 void listaRecorrer(tLista * pl, Accion accion, void* param)
 {
     while(*pl)
@@ -49,8 +82,26 @@ void listaRecorrer(tLista * pl, Accion accion, void* param)
         pl = &(*pl)->sig;
     }
 }
+
+int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp)
+{
+    tNodo * elim;
+    int rc;
+    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+        pl = &(*pl)->sig;
+
+    if(!*pl || rc)
+        return 0; ///NO_EXISTE
+
+    elim = *pl;
+
+    *pl = elim->sig;
+    free(elim->info);
+    free(elim);
+    return 1;
+}
                          ///pd es la clave
-int listaSacar(tLista * pl, void * pd, Cmp cmp)
+/*int listaSacar(tLista * pl, void * pd, Cmp cmp)
 {
     tNodo * elim;
     while(*pl && cmp(pd, (*pl)->info)!=0)
@@ -66,7 +117,23 @@ int listaSacar(tLista * pl, void * pd, Cmp cmp)
     free(elim);
     return TODO_OK;
 }
+*/
 
+int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
+{
+    int rc;
+    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+        pl = &(*pl)->sig;
+
+    if(!*pl || rc)
+        return 0; ///NO_EXISTE
+
+
+    memcpy(pd,(*pl)->info, MIN(tamElem, (*pl)->tam));
+
+    return 1;
+}
+/*
 int listaObtener(tLista * pl, void * pd, size_t tam, Cmp cmp)
 {
     while(*pl && cmp(pd, (*pl)->info)!=0)
@@ -79,3 +146,4 @@ int listaObtener(tLista * pl, void * pd, size_t tam, Cmp cmp)
 
     return TODO_OK;
 }
+*/

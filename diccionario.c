@@ -51,4 +51,22 @@ int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem)
     return listaInsertar(&(dic->ini[indice]), elem, tamElem);
 }
 
+int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp)
+{
+    size_t hashValue, indice;
 
+    hashValue = dic->hashFunc(clave);
+    indice = hashValue % dic->capMax;
+
+    return listaSacar(&(dic->ini[indice]), clave, cmp);
+}
+
+int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem, Cmp cmp)
+{
+    size_t hashValue, indice;
+
+    hashValue = dic->hashFunc(clave);
+    indice = hashValue % dic->capMax;
+
+    return listaObtener(&(dic->ini[indice]), pd, tamElem, cmp);
+}

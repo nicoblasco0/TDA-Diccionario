@@ -49,21 +49,33 @@ void listaRecorrer(tLista * pl, Accion accion, void* param)
         pl = &(*pl)->sig;
     }
 }
-
-int listaSacar(tLista * pl, void * pd, size_t tam, Comparar cmp)
+                         ///pd es la clave
+int listaSacar(tLista * pl, void * pd, Cmp cmp)
 {
     tNodo * elim;
     while(*pl && cmp(pd, (*pl)->info)!=0)
         pl = &(*pl)->sig;
 
     if(!*pl)
-        return -1; ///NO_EXISTE
+        return NO_EXISTE;
 
     elim = *pl;
-    memcpy(pd, elim->info, MINIMO(tam, elim->tamInfo));
 
     *pl = elim->sig;
     free(elim->info);
     free(elim);
+    return TODO_OK;
+}
+
+int listaObtener(tLista * pl, void * pd, size_t tam, Cmp cmp)
+{
+    while(*pl && cmp(pd, (*pl)->info)!=0)
+        pl = &(*pl)->sig;
+
+    if(!*pl)
+        return NO_EXISTE;
+
+    memcpy(pd, (*pl)->info, MIN(tam, (*pl)->tam));
+
     return TODO_OK;
 }

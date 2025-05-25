@@ -7,6 +7,8 @@
 
 #define TODO_OK 1
 #define SIN_MEM -3
+#define NO_EXISTE -2
+#define MIN(X,Y) ((X)<(Y)?(X):(Y))
 
 typedef struct sNodo
 {
@@ -17,10 +19,12 @@ typedef struct sNodo
 
 typedef tNodo* tLista;
 typedef void (*Accion)(void* elem, void* param);
+typedef int (*Cmp)(const void*, const void*);
 
 void listaCrear(tLista* pl);
 void listaVaciar(tLista* pl);
 int listaInsertar(tLista* pl, void* elem, size_t tamElem);  //Inserta al principio
 void listaRecorrer(tLista * pl, Accion accion, void* param);
+int listaSacar(tLista * pl, void * pd, Cmp cmp);
 
 #endif // LISTA_H

@@ -2,7 +2,7 @@
 #define DICCIONARIO_H
 #include "lista.h"
 
-typedef size_t (*FuncionHash)(const void*, size_t);
+typedef size_t (*FuncionHash)(const void*);
 
 typedef struct
 {
@@ -14,9 +14,7 @@ typedef struct
 int crearDiccionario(tDiccionario* dic, size_t capMax, FuncionHash hashFunc);
 void vaciarDiccionario(tDiccionario* dic);
 void recorrerDiccionario(tDiccionario* dic, Accion accion, void* param);
-void ponerDiccionario(tDiccionario* dic, void* elem, size_t tamElem);
-size_t hashGenerico(const void* clave, size_t tam);
-
+int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem);
 
 
 #endif // DICCIONARIO_H

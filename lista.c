@@ -19,7 +19,7 @@ void listaVaciar(tLista* pl)
 
 }
 
-int listaInsertaOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
+int listaInsertarOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actualizar actualizar)
 {
     tNodo * nue;
     int rc;
@@ -28,18 +28,22 @@ int listaInsertaOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
         pl = &(*pl)->sig;
 
     if(*pl && !rc)
-        return 0; ///DUPLICADO
+    {
+        actualizar((*pl)->info, pd);
+        return TODO_OK;
+    }
+
 
     nue = (tNodo*)malloc(sizeof(tNodo));
     if(!nue)
     {
-        return 0; ///LISTA_LLENA
+        return SIN_MEM;
     }
     nue->info = malloc(tamElem);
     if(!nue->info)
     {
         free(nue);
-        return 0; ///LISTA_LLENA
+        return SIN_MEM;
     }
 
     nue->tam = tamElem;
@@ -48,7 +52,7 @@ int listaInsertaOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
 
     *pl = nue;
 
-    return 1; ///OK
+    return TODO_OK;
 }
 
 /*

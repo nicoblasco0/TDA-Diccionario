@@ -96,6 +96,6 @@ int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt)
 
 void mostrarPalabra(void* e, void* p)
 {
-    char* palabra = (char*)e;
-    printf("%s\t", palabra);
+    tPalabra* pal = (tPalabra*)e;
+    printf("%s(%d)\t", pal->palabra, pal->cantApariciones);
 }

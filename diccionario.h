@@ -27,4 +27,5 @@ size_t HASH_STRING(const void* clave); //djb2
 size_t HASH_INT(const void* clave);
 size_t HASH_FLOAT(const void* clave);
 
+int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N);
 #endif // DICCIONARIO_H

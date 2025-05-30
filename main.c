@@ -5,6 +5,7 @@
 int main()
 {
     tDiccionario dic;
+    tLista topN;
     tTexto infoTexto;
     infoTexto.cantEspacios = 0;
     infoTexto.cantPalabras = 0;
@@ -20,8 +21,11 @@ int main()
     recorrerDiccionario(&dic, mostrarPalabra, NULL);
 
     ///hacer top N
-
-
+    printf("\nEl podio con las 5 palabras mas utilizadas en el texto es: \n");
+    listaCrear(&topN);
+    recorrerDiccionario_insertarTopN(&dic, &topN, cmpApariciones, actualizarPalabra, 5);
+    listaRecorrer(&topN, mostrarPalabra, NULL);
     vaciarDiccionario(&dic);
+    listaVaciar(&topN);
     return 0;
 }

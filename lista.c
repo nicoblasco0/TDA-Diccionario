@@ -55,6 +55,65 @@ int listaInsertarOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actua
     return TODO_OK;
 }
 
+int listaInsertarOrdenadoTopN(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actualizar actualizar, size_t N)
+{
+    tLista *p = pl;
+    tNodo *nue;
+    int rc;
+    int cont = 1;
+
+    while (*pl && (rc = cmp(pd, (*pl)->info)) > 0)
+        pl = &(*pl)->sig;
+
+    /// Teoricamente, no usariamos actualizar pero lo dejo para que sea generico?) --- Con actualizar da mal, duda.
+   /* if(*pl && !rc)
+    {
+        actualizar((*pl)->info, pd);
+        return TODO_OK;
+    }*/
+
+
+    nue = malloc(sizeof(tNodo));
+    if (!nue)
+    {
+        return SIN_MEM;
+    }
+
+    nue->info = malloc(tamElem);
+    if (!nue->info)
+    {
+        free(nue);
+        return SIN_MEM;
+    }
+    nue->tam = tamElem;
+    memcpy(nue->info, pd, tamElem);
+    nue->sig = *pl;
+    *pl = nue;
+
+    tLista *iter = p;
+
+    while (*iter && cont < N)
+    {
+        iter = &(*iter)->sig;
+        cont++;
+    }
+
+    if (*iter)
+    {
+        tNodo *elim = (*iter)->sig;
+        (*iter)->sig = NULL;
+        while (elim)
+        {
+            tNodo *aux = elim->sig;
+            free(elim->info);
+            free(elim);
+            elim = aux;
+        }
+    }
+
+    return TODO_OK;
+}
+
 /*
 int listaInsertar(tLista* pl, void* elem, size_t tamElem)
 {

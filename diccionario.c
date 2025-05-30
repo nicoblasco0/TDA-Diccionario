@@ -125,3 +125,20 @@ size_t HASH_FLOAT(const void* clave)
     conv.f = *f;
     return (size_t)(conv.i);
 }
+
+
+int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N)
+{
+     for (int i = 0; i < dic->capMax; i++)
+    {
+        tLista act = dic->ini[i];
+
+        while (act)
+        {
+            listaInsertarOrdenadoTopN(pl, act->info, act->tam, cmp, actualizar, N);
+            act =act->sig;
+        }
+    }
+
+    return TODO_OK;
+}

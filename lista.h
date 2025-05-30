@@ -29,4 +29,6 @@ void listaRecorrer(tLista * pl, Accion accion, void* param);
 int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp);
 int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp);
 
+int listaInsertarOrdenadoTopN(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actualizar actualizar, size_t N);
+
 #endif // LISTA_H

@@ -59,6 +59,14 @@ int cmpPalabra(const void* e1, const void* e2)
     return strcmp(p1->palabra, p2->palabra);
 }
 
+int cmpApariciones(const void* e1, const void* e2)
+{
+    tPalabra* p1 = (tPalabra*) e1;
+    tPalabra* p2 = (tPalabra*) e2;
+    return (p2->cantApariciones - p1->cantApariciones);
+}
+
+
 void actualizarPalabra(void* e1, const void* e2) ///Con e2 actualizamos e1
 {
     tPalabra* p1 = (tPalabra*) e1;

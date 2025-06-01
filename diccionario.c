@@ -33,12 +33,9 @@ void vaciarDiccionario(tDiccionario* dic)
 
 void recorrerDiccionario(tDiccionario* dic, Accion accion, void* param)
 {
-    printf("\n");
     for(int i = 0 ; i < dic->capMax ; i++)
     {
-        printf("LISTA NRO %d:\t", i+1);
         listaRecorrer(&(dic->ini[i]), accion, param);
-        printf("\n");
     }
 }
 
@@ -129,16 +126,18 @@ size_t HASH_FLOAT(const void* clave)
 
 int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N)
 {
-     for (int i = 0; i < dic->capMax; i++)
+    int cod;
+
+    for (int i = 0; i < dic->capMax; i++)
     {
         tLista act = dic->ini[i];
 
         while (act)
         {
-            listaInsertarOrdenadoTopN(pl, act->info, act->tam, cmp, actualizar, N);
+            cod = listaInsertarOrdenadoTopN(pl, act->info, act->tam, cmp, actualizar, N);
             act =act->sig;
         }
     }
 
-    return TODO_OK;
+    return cod;
 }

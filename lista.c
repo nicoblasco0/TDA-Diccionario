@@ -72,7 +72,6 @@ int listaInsertarOrdenadoTopN(tLista * pl, void * pd, size_t tamElem, Cmp cmp, A
         return TODO_OK;
     }*/
 
-
     nue = malloc(sizeof(tNodo));
     if (!nue)
     {
@@ -114,29 +113,6 @@ int listaInsertarOrdenadoTopN(tLista * pl, void * pd, size_t tamElem, Cmp cmp, A
     return TODO_OK;
 }
 
-/*
-int listaInsertar(tLista* pl, void* elem, size_t tamElem)
-{
-    tNodo* nue = (tNodo*)malloc(sizeof(tNodo));
-    if(!nue)
-        return SIN_MEM;
-
-    nue->info = malloc(tamElem);
-    if(!nue->info)
-    {
-        free(nue);
-        return SIN_MEM;
-    }
-
-    memcpy(nue->info, elem, tamElem);
-    nue->tam = tamElem;
-
-    nue->sig = *pl;
-    *pl = nue;
-
-    return TODO_OK;
-}
-*/
 void listaRecorrer(tLista * pl, Accion accion, void* param)
 {
     while(*pl)
@@ -163,24 +139,6 @@ int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp)
     free(elim);
     return 1;
 }
-                         ///pd es la clave
-/*int listaSacar(tLista * pl, void * pd, Cmp cmp)
-{
-    tNodo * elim;
-    while(*pl && cmp(pd, (*pl)->info)!=0)
-        pl = &(*pl)->sig;
-
-    if(!*pl)
-        return NO_EXISTE;
-
-    elim = *pl;
-
-    *pl = elim->sig;
-    free(elim->info);
-    free(elim);
-    return TODO_OK;
-}
-*/
 
 int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
 {
@@ -196,17 +154,3 @@ int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
 
     return 1;
 }
-/*
-int listaObtener(tLista * pl, void * pd, size_t tam, Cmp cmp)
-{
-    while(*pl && cmp(pd, (*pl)->info)!=0)
-        pl = &(*pl)->sig;
-
-    if(!*pl)
-        return NO_EXISTE;
-
-    memcpy(pd, (*pl)->info, MIN(tam, (*pl)->tam));
-
-    return TODO_OK;
-}
-*/

@@ -105,5 +105,88 @@ int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt)
 void mostrarPalabra(void* e, void* p)
 {
     tPalabra* pal = (tPalabra*)e;
-    printf("%s(%d)\t", pal->palabra, pal->cantApariciones);
+    printf("%s: %d\n", pal->palabra, pal->cantApariciones);
+}
+
+void mostrarMenu()
+{
+    printf("============================================\n");
+    printf("||                                        ||\n");
+    printf("||    BIENVENIDO AL PROCESADOR DE TEXTO   ||\n");
+    printf("||                                        ||\n");
+    printf("============================================\n");
+    printf("\n");
+    printf("Seleccione una opcion:\n");
+    printf("1. Procesar archivo de texto\n");
+    printf("2. Mostrar estadisticas del texto\n");
+    printf("3. Mostrar top N palabras mas frecuentes\n");
+    printf("4. Salir\n");
+    printf("\n");
+    printf("Ingrese su opcion: ");
+}
+
+int procesarArchivo(tDiccionario* dic, tTexto* text)
+{
+
+    char rutaArch[100];
+    size_t capacidadRecomendada;
+
+    system("cls");
+
+    printf("Usted ha seleccionado la opción de procesamiento de archivo de texto.\n\n");
+
+    printf("A continuación, ingrese la ruta del archivo .txt a procesar.\n");
+    scanf("%s", rutaArch);
+
+    capacidadRecomendada = calcularCapacidadDiccionario(rutaArch);
+
+    if(capacidadRecomendada == 0)
+    {
+        mostrarMensajeError(ERR_ARCH);
+        return ERR_ARCH;
+    }
+
+    crearDiccionario(dic, capacidadRecomendada, HASH_STRING);
+
+    text->cantEspacios = 0;
+    text->cantPalabras = 0;
+    text->cantSignos = 0;
+
+    procesarTexto(rutaArch, dic, text);
+
+    return TODO_OK;
+}
+
+void mostrarMensajeError(int cod)
+{
+    switch(cod)
+    {
+    case ERR_ARCH:
+        printf("\nHa ocurrido un error al intentar abrir el archivo, verifique haber ingresado la ruta o nombre correctamente.\n");
+        break;
+
+    case SIN_MEM:
+        printf("\nMemoria insuficiente.\n");
+        break;
+    }
+
+}
+
+void mostrarEstadisticas(tDiccionario* dic, tTexto* text)
+{
+    printf("\n#######################\nEstadisticas generales:\nCantidad palabras: %d\nCantidad espacios: %d\nCantidad signos: %d\n#######################\n", text->cantPalabras, text->cantEspacios, text->cantSignos);
+    printf("\nLista de palabras y su respectivo numero de apariciones:\n");
+    recorrerDiccionario(dic, mostrarPalabra, NULL);
+}
+
+void mostrarTopPalabras(tDiccionario* dic, tLista* listaTopPalabras, int n)
+{
+    if(n < 0)
+        n*=(-1);
+
+    printf("\nEl podio con las %d palabras mas utilizadas en el texto es: \n", n);
+    listaCrear(listaTopPalabras);
+    recorrerDiccionario_insertarTopN(dic, listaTopPalabras, cmpApariciones, NULL, n);
+    listaRecorrer(listaTopPalabras, mostrarPalabra, NULL);
+    listaVaciar(listaTopPalabras);
 }

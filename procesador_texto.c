@@ -63,6 +63,9 @@ int cmpApariciones(const void* e1, const void* e2)
 {
     tPalabra* p1 = (tPalabra*) e1;
     tPalabra* p2 = (tPalabra*) e2;
+
+    if(p2->cantApariciones == p1->cantApariciones)
+        return strcmp(p1->palabra, p2->palabra);
     return (p2->cantApariciones - p1->cantApariciones);
 }
 
@@ -108,6 +111,12 @@ void mostrarPalabra(void* e, void* p)
     printf("%s: %d\n", pal->palabra, pal->cantApariciones);
 }
 
+void mostrarPalabraBucket(void* e, void* p)
+{
+    tPalabra* pal = (tPalabra*)e;
+    printf("%s(%d) \t", pal->palabra, pal->cantApariciones);
+}
+
 void mostrarMenu()
 {
     printf("============================================\n");
@@ -120,7 +129,8 @@ void mostrarMenu()
     printf("1. Procesar archivo de texto\n");
     printf("2. Mostrar estadisticas del texto\n");
     printf("3. Mostrar top N palabras mas frecuentes\n");
-    printf("4. Salir\n");
+    printf("4. Mostrar contenido del diccionario en buckets\n");
+    printf("5. Salir\n");
     printf("\n");
     printf("Ingrese su opcion: ");
 }
@@ -133,9 +143,9 @@ int procesarArchivo(tDiccionario* dic, tTexto* text)
 
     system("cls");
 
-    printf("Usted ha seleccionado la opción de procesamiento de archivo de texto.\n\n");
+    printf("Usted ha seleccionado la opcion de procesamiento de archivo de texto.\n\n");
 
-    printf("A continuación, ingrese la ruta del archivo .txt a procesar.\n");
+    printf("A continuacion, ingrese la ruta del archivo .txt a procesar.\n");
     scanf("%s", rutaArch);
 
     capacidadRecomendada = calcularCapacidadDiccionario(rutaArch);

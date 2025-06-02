@@ -127,10 +127,11 @@ size_t HASH_FLOAT(const void* clave)
 int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N)
 {
     int cod;
+    tLista act;
 
     for (int i = 0; i < dic->capMax; i++)
     {
-        tLista act = dic->ini[i];
+        act = dic->ini[i];
 
         while (act)
         {
@@ -140,4 +141,14 @@ int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Ac
     }
 
     return cod;
+}
+
+void mostrarBucketsDiccionario(tDiccionario* dic, Accion accion)
+{
+    for(int i = 0 ; i < dic->capMax ; i++)
+    {
+        printf("bucket %d: ", i+1);
+        listaRecorrer(&(dic->ini[i]), accion, NULL);
+        printf("\n");
+    }
 }

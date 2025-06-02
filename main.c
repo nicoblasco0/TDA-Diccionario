@@ -18,55 +18,55 @@ int main()
         mostrarMenu();
         scanf("%d", &opcion);
 
-        switch(opcion) {
-            case 1:
-                if(hayArchivoProcesado) //Significa que la persona quiere procesar un 2do o un n archivo.
-                {
-                    vaciarDiccionario(&dic);
-                    hayArchivoProcesado = false;
-                }
-                cod = procesarArchivo(&dic, &infoTexto);
-                if(cod == TODO_OK)
-                    hayArchivoProcesado = true;
-                break;
-            case 2:
-                if(hayArchivoProcesado)
-                {
-                    system("cls");
-                    mostrarEstadisticas(&dic, &infoTexto);
-                }
+        switch(opcion)
+        {
+        case 1:
+            if(hayArchivoProcesado) //Significa que la persona quiere procesar un 2do o un n archivo.
+            {
+                vaciarDiccionario(&dic);
+                hayArchivoProcesado = false;
+            }
+            cod = procesarArchivo(&dic, &infoTexto);
+            if(cod == TODO_OK)
+                hayArchivoProcesado = true;
+            break;
 
-                else
-                {
-                    system("cls");
-                    printf("\nDebe procesar un archivo antes de generar estadisticas.\n");
-                }
+        case 2:
+            system("cls");
+            if(hayArchivoProcesado)
+                mostrarEstadisticas(&dic, &infoTexto);
+            else
+                printf("\nDebe procesar un archivo antes de generar estadisticas.\n");
+            break;
 
+        case 3:
+            system("cls");
+            if(hayArchivoProcesado)
+            {
+                printf("\nElija el numero de palabras que quiere visualizar en su top de apariciones:\n");
+                scanf("%d", &n);
+                mostrarTopPalabras(&dic, &listaTopPalabras, n);
+            }
+            else
+                printf("\nDebe procesar un archivo antes de generar un top N de palabras\n");
+            break;
 
-                break;
-            case 3:
-                if(hayArchivoProcesado)
-                {
-                    system("cls");
-                    printf("\nElija el numero de palabras que quiere visualizar en su top de apariciones:\n");
-                    scanf("%d", &n);
-                    mostrarTopPalabras(&dic, &listaTopPalabras, n);
-                }
-                else
-                {
-                    system("cls");
-                    printf("\nDebe procesar un archivo antes de generar un top N de palabras\n");
-                }
+        case 4:
+            system("cls");
+            if(hayArchivoProcesado)
+                mostrarBucketsDiccionario(&dic, mostrarPalabraBucket);
+            else
+                printf("\nDebe procesar un archivo antes de mostrar los buckets en los que se guardo\n");
+            break;
 
+        case 5:
+            printf("Saliendo del programa...\n");
+            finishApp = true;
+            break;
 
-                break;
-            case 4:
-                printf("Saliendo del programa...\n");
-                finishApp = true;
-                break;
-            default:
-                system("cls");
-                printf("Opcion invalida. Intente de nuevo.\n");
+        default:
+            system("cls");
+            printf("Opcion invalida. Intente de nuevo.\n");
         }
     }
 

@@ -27,6 +27,7 @@ int cmpApariciones(const void* e1, const void* e2);
 void actualizarPalabra(void* e1, const void* e2); ///Con e2 actualizamos e1
 int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt);
 void mostrarPalabra(void* e, void* p);
+void mostrarPalabraBucket(void* e, void* p);
 void mostrarMenu();
 int procesarArchivo(tDiccionario* dic, tTexto* text);
 void mostrarMensajeError(int cod);

@@ -32,6 +32,6 @@ void mostrarMenu();
 int procesarArchivo(tDiccionario* dic, tTexto* text);
 void mostrarMensajeError(int cod);
 void mostrarEstadisticas(tDiccionario* dic, tTexto* text);
-void mostrarTopPalabras(tDiccionario* dic, tLista* listaTopPalabras, int n);
+void mostrarTopPalabras(tDiccionario* dic, tPodio* podioPalabras, int n);
 
 #endif // PROCESADOR_TEXTO

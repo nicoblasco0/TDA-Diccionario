@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "lista.h"
+#include "podio.h"
 
 #define LOAD_FACTOR 0.75
 
@@ -26,6 +27,6 @@ size_t proximoPrimo(size_t n);
 size_t HASH_STRING(const void* clave); //djb2
 size_t HASH_INT(const void* clave);
 size_t HASH_FLOAT(const void* clave);
-int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N);
+int recorrerDiccionarioInsertarPodio (tDiccionario* dic, tPodio* pp, Cmp cmp);
 void mostrarBucketsDiccionario(tDiccionario* dic, Accion accion);
 #endif // DICCIONARIO_H

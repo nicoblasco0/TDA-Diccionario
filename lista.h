@@ -17,7 +17,10 @@ typedef struct sNodo
     struct sNodo* sig;
 }tNodo;
 
+
+
 typedef tNodo* tLista;
+
 typedef void (*Accion)(void* elem, void* param);
 typedef int (*Cmp)(const void*, const void*);
 typedef void (*Actualizar)(void*, const void*);
@@ -29,6 +32,5 @@ void listaRecorrer(tLista * pl, Accion accion, void* param);
 int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp);
 int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp);
 
-int listaInsertarOrdenadoTopN(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actualizar actualizar, size_t N);
 
 #endif // LISTA_H

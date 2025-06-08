@@ -124,7 +124,7 @@ size_t HASH_FLOAT(const void* clave)
 }
 
 
-int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Actualizar actualizar, size_t N)
+int recorrerDiccionarioInsertarPodio (tDiccionario* dic, tPodio* pp, Cmp cmp)
 {
     int cod;
     tLista act;
@@ -133,10 +133,10 @@ int recorrerDiccionario_insertarTopN (tDiccionario* dic, tLista* pl, Cmp cmp, Ac
     {
         act = dic->ini[i];
 
-        while (act)
+        while (act) ///Corregir - hacer en un listaRecorrer personalizado
         {
-            cod = listaInsertarOrdenadoTopN(pl, act->info, act->tam, cmp, actualizar, N);
-            act =act->sig;
+            cod = podioInsertarOrdenado(pp,act->info,act->tam, cmp);
+            act = act->sig;
         }
     }
 

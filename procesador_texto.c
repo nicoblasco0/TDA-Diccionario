@@ -59,15 +59,6 @@ int cmpPalabra(const void* e1, const void* e2)
     return strcmp(p1->palabra, p2->palabra);
 }
 
-int cmpApariciones(const void* e1, const void* e2)
-{
-    tPalabra* p1 = (tPalabra*) e1;
-    tPalabra* p2 = (tPalabra*) e2;
-
-    if(p2->cantApariciones == p1->cantApariciones)
-        return strcmp(p1->palabra, p2->palabra);
-    return (p2->cantApariciones - p1->cantApariciones);
-}
 
 
 void actualizarPalabra(void* e1, const void* e2) ///Con e2 actualizamos e1
@@ -189,14 +180,14 @@ void mostrarEstadisticas(tDiccionario* dic, tTexto* text)
     recorrerDiccionario(dic, mostrarPalabra, NULL);
 }
 
-void mostrarTopPalabras(tDiccionario* dic, tLista* listaTopPalabras, int n)
+void mostrarTopPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
 {
     if(n < 0)
         n*=(-1);
 
     printf("\nEl podio con las %d palabras mas utilizadas en el texto es: \n", n);
-    listaCrear(listaTopPalabras);
-    recorrerDiccionario_insertarTopN(dic, listaTopPalabras, cmpApariciones, NULL, n);
+    podioCrear(podioPalabras, n);
+    recorrerDiccionarioInsertarPodio(dic, podioPalabras, cmpApariciones, NULL);
     listaRecorrer(listaTopPalabras, mostrarPalabra, NULL);
-    listaVaciar(listaTopPalabras);
+    podioVaciar(podioPalabras);
 }

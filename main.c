@@ -8,7 +8,7 @@ int main()
     bool hayArchivoProcesado = false;
     int opcion, cod, n;
     tDiccionario dic;
-    tLista listaTopPalabras;
+    tPodio podioPalabras;
     tTexto infoTexto;
 
     while(!finishApp)
@@ -45,7 +45,7 @@ int main()
             {
                 printf("\nElija el numero de palabras que quiere visualizar en su top de apariciones:\n");
                 scanf("%d", &n);
-                mostrarTopPalabras(&dic, &listaTopPalabras, n);
+                mostrarTopPalabras(&dic, &podioPalabras, n);
             }
             else
                 printf("\nDebe procesar un archivo antes de generar un top N de palabras\n");

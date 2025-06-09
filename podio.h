@@ -26,6 +26,8 @@ typedef void (*Accion)(void* elem, void* param);
 void podioCrear(tPodio* pp, size_t n);
 void podioVaciar(tPodio* pp);
 void podioRecorrer(tPodio * pp, Accion accion, void* param);
-
 int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp);
+void podioMostrar(tPodio* pp, Cmp cmp, Accion mostrar);
+
+
 #endif // PODIO_H_INCLUDED

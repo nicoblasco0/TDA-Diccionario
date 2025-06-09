@@ -90,3 +90,27 @@ void podioRecorrer(tPodio * pp, Accion accion, void* param)
         pl = &(*pl)->sig;
     }
 }
+
+void podioMostrar(tPodio* pp, Cmp cmp, Accion mostrar)
+{
+    unsigned difEntrePos = 0;
+    unsigned pos = 1;
+    tNodoPod **pl = &(pp->lista);
+    printf("***********************\nPodio!!\n***********************\n\n");
+    while(*pl)
+    {
+        printf("Pos -> %d   ", pos);
+        mostrar((*pl)->info, NULL);
+
+        if((*pl)->sig && cmp((*pl)->info, (*pl)->sig->info) == 0)
+            difEntrePos ++;
+        else
+        {
+            pos++;
+            pos+=difEntrePos;
+            difEntrePos = 0;
+        }
+
+        pl = &(*pl)->sig;
+    }
+}

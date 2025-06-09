@@ -22,21 +22,12 @@ void podioVaciar(tPodio* pp)
 
 }
 
-int cmpApariciones(const void* e1, const void* e2)
-{
-    tPalabra* p1 = (tPalabra*) e1;
-    tPalabra* p2 = (tPalabra*) e2;
-
-    if(p2->cantApariciones == p1->cantApariciones)
-        return strcmp(p1->palabra, p2->palabra);
-    return (p2->cantApariciones - p1->cantApariciones);
-}
 
 
 int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp)
 {
-    tNodoPod *pl = pp->lista;
-    tLista *p = pl;
+    tNodoPod **pl = &(pp->lista);
+
     tNodoPod *nue;
     tNodoPod *elim;
 
@@ -71,7 +62,7 @@ int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp)
     *pl = nue;
 
 
-    while (*pl && cont < n)
+    while (*pl && cont < pp->n)
     {
         pl = &(*pl)->sig;
         cont++;
@@ -87,4 +78,15 @@ int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp)
     }
 
     return TODO_OK;
+}
+
+
+void podioRecorrer(tPodio * pp, Accion accion, void* param)
+{
+    tNodoPod **pl = &(pp->lista);
+    while(*pl)
+    {
+        accion((*pl)->info, param);
+        pl = &(*pl)->sig;
+    }
 }

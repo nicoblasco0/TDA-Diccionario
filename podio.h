@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define TODO_OK 1
+#define SIN_MEM -3
 typedef struct sNodoPod
 {
     void* info;
@@ -20,9 +21,11 @@ typedef struct
 
 
 typedef int (*Cmp)(const void*, const void*);
+typedef void (*Accion)(void* elem, void* param);
 
 void podioCrear(tPodio* pp, size_t n);
 void podioVaciar(tPodio* pp);
-int cmpApariciones(const void* e1, const void* e2);
+void podioRecorrer(tPodio * pp, Accion accion, void* param);
+
 int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp);
 #endif // PODIO_H_INCLUDED

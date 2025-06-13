@@ -45,7 +45,7 @@ int main()
             {
                 printf("\nElija el numero de palabras que quiere visualizar en su top de apariciones:\n");
                 scanf("%d", &n);
-                mostrarTopPalabras(&dic, &podioPalabras, n);
+                mostrarPodioPalabras(&dic, &podioPalabras, n);
             }
             else
                 printf("\nDebe procesar un archivo antes de generar un top N de palabras\n");

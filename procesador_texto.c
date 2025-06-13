@@ -19,7 +19,7 @@ bool proximaPalabra(char** cad, char* pal, tTexto* t)
 
     // Construir palabra y contar letras
     while (esLetra(**cad)) {
-        *pal = **cad;
+        *pal = tolower(**cad);
         (*cad)++;
         pal++;
     }
@@ -109,6 +109,12 @@ void mostrarPalabra(void* e, void* p)
     printf("%s: %d\n", pal->palabra, pal->cantApariciones);
 }
 
+void mostrarPalabraPodio(void* e, void* p)
+{
+    tPalabra* pal = (tPalabra*)e;
+    printf("%s(%d)\n", pal->palabra, pal->cantApariciones);
+}
+
 void mostrarPalabraBucket(void* e, void* p)
 {
     tPalabra* pal = (tPalabra*)e;
@@ -187,7 +193,7 @@ void mostrarEstadisticas(tDiccionario* dic, tTexto* text)
     recorrerDiccionario(dic, mostrarPalabra, NULL);
 }
 
-void mostrarTopPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
+void mostrarPodioPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
 {
     if(n < 0)
         n*=(-1);
@@ -195,6 +201,6 @@ void mostrarTopPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
     printf("\nEl podio con las %d palabras mas utilizadas en el texto es: \n", n);
     podioCrear(podioPalabras, n);
     recorrerDiccionarioInsertarPodio(dic, podioPalabras, cmpApariciones);
-    podioMostrar(podioPalabras, cmpApariciones, mostrarPalabra);
+    podioMostrar(podioPalabras, cmpApariciones, mostrarPalabraPodio);
     podioVaciar(podioPalabras);
 }

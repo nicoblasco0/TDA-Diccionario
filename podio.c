@@ -96,10 +96,10 @@ void podioMostrar(tPodio* pp, Cmp cmp, Accion mostrar)
     unsigned difEntrePos = 0;
     unsigned pos = 1;
     tNodoPod **pl = &(pp->lista);
-    printf("***********************\nPodio!!\n***********************\n\n");
+    printf("***********************\nPodio\n***********************\n\n");
     while(*pl)
     {
-        printf("Pos -> %d   ", pos);
+        printf("Pos %d :  ", pos);
         mostrar((*pl)->info, NULL);
 
         if((*pl)->sig && cmp((*pl)->info, (*pl)->sig->info) == 0)

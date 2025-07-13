@@ -22,63 +22,76 @@ void podioVaciar(tPodio* pp)
 
 }
 
-
-
-int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp)
+int podioInsertarOrdenado(tPodio* pp, void* pd, size_t tamElem, Cmp cmp)
 {
     tNodoPod **pl = &(pp->lista);
+    tNodoPod *nue, *elim;
 
-    tNodoPod *nue;
-    tNodoPod *elim;
-
+    int cont = 0;   //Cont representa la cantidad de grupos distintos, no la cantidad de elementos.
     int rc;
-    int cont = 0;
+    void* valorAnterior = NULL;
 
     while (*pl && (rc = cmp(pd, (*pl)->info)) > 0)
     {
+        if (!valorAnterior || cmp((*pl)->info, valorAnterior) != 0) //Comparamos cada elemento contra el anterior valor para detectar cuando aumentar cont.
+        {
+            cont++;
+            valorAnterior = (*pl)->info;
+        }
         pl = &(*pl)->sig;
-        cont++;
     }
 
-    if(cont == pp->n)
+    if (!valorAnterior || cmp(pd, valorAnterior) != 0)
+        cont++;
+
+    if (cont > pp->n)
         return 0;
 
-
+    //Creamos el nodo
     nue = malloc(sizeof(tNodoPod));
-    if (!nue)
-    {
-        return SIN_MEM;
-    }
+    if (!nue) return SIN_MEM;
 
     nue->info = malloc(tamElem);
-    if (!nue->info)
-    {
+    if (!nue->info) {
         free(nue);
         return SIN_MEM;
     }
+
     nue->tam = tamElem;
     memcpy(nue->info, pd, tamElem);
     nue->sig = *pl;
     *pl = nue;
 
+    //Recalculamos la cantidad de grupos para poder eliminar el ultimo si es que lo hay.
+    pl = &(pp->lista);
+    valorAnterior = NULL;
+    cont = 0;
 
-    while (*pl && cont < pp->n)
+    while (*pl)
     {
+        if (!valorAnterior || cmp((*pl)->info, valorAnterior) != 0)
+        {
+            cont++;
+            if (cont > pp->n)
+                break;  //Dejamos a pl en el inicio del grupo n+1, osea el sobrante, para poder eliminarlo
+
+            valorAnterior = (*pl)->info;
+        }
         pl = &(*pl)->sig;
-        cont++;
     }
 
-    if (*pl)
+    //Eliminamos desde el puntero hacia adelante
+    while (*pl)
     {
         elim = *pl;
-        *pl = NULL;
+        *pl = elim->sig;
         free(elim->info);
         free(elim);
-
     }
 
     return TODO_OK;
 }
+
 
 
 void podioRecorrer(tPodio * pp, Accion accion, void* param)

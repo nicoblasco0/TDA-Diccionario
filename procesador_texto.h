@@ -36,5 +36,6 @@ int procesarArchivo(tDiccionario* dic, tTexto* text);
 void mostrarMensajeError(int cod);
 void mostrarEstadisticas(tDiccionario* dic, tTexto* text);
 void mostrarPodioPalabras(tDiccionario* dic, tPodio* podioPalabras, int n);
+void accionPodio (void *elem, void* param);
 
 #endif // PROCESADOR_TEXTO

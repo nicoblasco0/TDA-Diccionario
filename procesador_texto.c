@@ -132,7 +132,7 @@ void mostrarMenu()
     printf("Seleccione una opcion:\n");
     printf("1. Procesar archivo de texto\n");
     printf("2. Mostrar estadisticas del texto\n");
-    printf("3. Mostrar top N palabras mas frecuentes\n");
+    printf("3. Mostrar podio de las n palabras mas frecuentes\n");
     printf("4. Mostrar contenido del diccionario en buckets\n");
     printf("5. Salir\n");
     printf("\n");
@@ -200,7 +200,13 @@ void mostrarPodioPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
 
     printf("\nEl podio con las %d palabras mas utilizadas en el texto es: \n", n);
     podioCrear(podioPalabras, n);
-    recorrerDiccionarioInsertarPodio(dic, podioPalabras, cmpApariciones);
+    //recorrerDiccionarioInsertarPodio(dic, podioPalabras, cmpApariciones);
+    recorrerDiccionario(dic, accionPodio, podioPalabras);
     podioMostrar(podioPalabras, cmpApariciones, mostrarPalabraPodio);
     podioVaciar(podioPalabras);
+}
+
+void accionPodio (void *elem, void* param)
+{
+    podioInsertarOrdenado(param, elem, sizeof(tPalabra), cmpApariciones);
 }

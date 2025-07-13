@@ -20,6 +20,7 @@ void podioVaciar(tPodio* pp)
         elim = *pl;
     }
 
+
 }
 
 int podioInsertarOrdenado(tPodio* pp, void* pd, size_t tamElem, Cmp cmp)

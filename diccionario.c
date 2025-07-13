@@ -124,25 +124,6 @@ size_t HASH_FLOAT(const void* clave)
 }
 
 
-int recorrerDiccionarioInsertarPodio (tDiccionario* dic, tPodio* pp, Cmp cmp)
-{
-    int cod;
-    tLista act;
-
-    for (int i = 0; i < dic->capMax; i++)
-    {
-        act = dic->ini[i];
-
-        while (act) ///Corregir - hacer en un listaRecorrer personalizado
-        {
-            cod = podioInsertarOrdenado(pp,act->info,act->tam, cmp);
-            act = act->sig;
-        }
-    }
-
-    return cod;
-}
-
 void mostrarBucketsDiccionario(tDiccionario* dic, Accion accion)
 {
     for(int i = 0 ; i < dic->capMax ; i++)

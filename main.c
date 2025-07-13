@@ -43,7 +43,7 @@ int main()
             system("cls");
             if(hayArchivoProcesado)
             {
-                printf("\nElija el numero de palabras que quiere visualizar en su top de apariciones:\n");
+                printf("\nElija el numero de palabras que quiere visualizar en su podio de apariciones:\n");
                 scanf("%d", &n);
                 mostrarPodioPalabras(&dic, &podioPalabras, n);
             }

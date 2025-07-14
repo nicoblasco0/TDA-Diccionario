@@ -1,13 +1,13 @@
 #include "lista.h"
 
-void listaCrear(tLista* pl)
+void listaDicCrear(tLista* pl)
 {
     *pl = NULL;
 }
 
 
 
-void listaVaciar(tLista* pl)
+void listaDicVaciar(tLista* pl)
 {
     tNodo* elim = *pl;
 
@@ -15,6 +15,7 @@ void listaVaciar(tLista* pl)
     {
         *pl = elim->sig;
         free(elim->info);
+        free(elim->clave);
         free(elim);
         elim = *pl;
     }
@@ -22,17 +23,26 @@ void listaVaciar(tLista* pl)
 }
 
 
-int listaInsertarOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actualizar actualizar)
+int listaDicInsertarOrdenado(tLista * pl, void* key, size_t tamKey, void * pd, size_t tamElem, Cmp cmp)
 {
     tNodo * nue;
+    void* nuevaInfo;
     int rc;
 ///                        >
-    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+    while(*pl && (rc=cmp(key, (*pl)->clave))>0)
         pl = &(*pl)->sig;
 
-    if(*pl && !rc)
+    if(*pl && (rc == 0))    ///Pisamos la info ya existente
     {
-        actualizar((*pl)->info, pd);
+        nuevaInfo = malloc(tamElem);  //Intermediario para contemplar que si falla el malloc, no perdemos la anterior info.
+        if(!nuevaInfo)                //(a diferencia que si haciamos free de la info y reservabamos)
+            return SIN_MEM;
+
+        free((*pl)->info);
+        memcpy(nuevaInfo, pd, tamElem);
+        (*pl)->info = nuevaInfo;
+        (*pl)->tamInfo = tamElem;
+
         return TODO_OK;
     }
 
@@ -48,9 +58,18 @@ int listaInsertarOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actua
         free(nue);
         return SIN_MEM;
     }
+    nue->clave = malloc(tamKey);
+    if(!nue->clave)
+    {
+        free(nue);
+        free(nue->info);
+        return SIN_MEM;
+    }
 
-    nue->tam = tamElem;
+    nue->tamInfo = tamElem;
+    nue->tamClave = tamKey;
     memcpy(nue->info, pd, tamElem);
+    memcpy(nue->clave, key, tamKey);
     nue->sig = *pl;
 
     *pl = nue;
@@ -60,20 +79,20 @@ int listaInsertarOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp, Actua
 
 
 
-void listaRecorrer(tLista * pl, Accion accion, void* param)
+void listaDicRecorrer(tLista * pl, Accion accion, void* param)
 {
     while(*pl)
     {
-        accion((*pl)->info, param);
+        accion((*pl)->clave, (*pl)->info, param);
         pl = &(*pl)->sig;
     }
 }
 
-int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp)
+int listaDicSacarOrdenado(tLista * pl, void * clave, Cmp cmp)
 {
     tNodo * elim;
     int rc;
-    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+    while(*pl && (rc=cmp(clave, (*pl)->clave))>0)
         pl = &(*pl)->sig;
 
     if(!*pl || rc)
@@ -83,21 +102,21 @@ int listaSacarOrdenado(tLista * pl, void * pd, Cmp cmp)
 
     *pl = elim->sig;
     free(elim->info);
+    free(elim->clave);
     free(elim);
     return 1;
 }
 
-int listaObtenerOrdenado(tLista * pl, void * pd, size_t tamElem, Cmp cmp)
+int listaDicObtenerOrdenado(tLista * pl, void* clave, void* pd, size_t tamElem, Cmp cmp)
 {
     int rc;
-    while(*pl && (rc=cmp(pd, (*pl)->info))>0)
+    while(*pl && (rc=cmp(clave, (*pl)->clave)) > 0)
         pl = &(*pl)->sig;
 
     if(!*pl || rc)
         return 0; ///NO_EXISTE
 
-
-    memcpy(pd,(*pl)->info, MIN(tamElem, (*pl)->tam));
+    memcpy(pd,(*pl)->info, MIN(tamElem, (*pl)->tamInfo));
 
     return 1;
 }

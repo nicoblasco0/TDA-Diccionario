@@ -52,11 +52,11 @@ size_t calcularCapacidadDiccionario(const char* rutaArchivo)
     return proximoPrimo((size_t)ceil(capacidadIdeal));
 }
 
-int cmpPalabra(const void* e1, const void* e2)
+int cmpStrings(const void* e1, const void* e2)
 {
-    tPalabra* p1 = (tPalabra*) e1;
-    tPalabra* p2 = (tPalabra*) e2;
-    return strcmp(p1->palabra, p2->palabra);
+    char* s1 = (char*) e1;
+    char* s2 = (char*) e2;
+    return strcmp(s1, s2);
 }
 
 int cmpApariciones(const void* e1, const void* e2)
@@ -84,17 +84,22 @@ int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt)
 
     char buffer[TAM_BUFFER];
     char palabra[TAM_PAL];
-    tPalabra infoPal;
+    int cantApariciones, res;
 
     while(fgets(buffer, TAM_BUFFER, fp))
     {
         char* p = buffer;
         while(proximaPalabra(&p, palabra, txt))
         {
-            strcpy(infoPal.palabra, palabra);
-            infoPal.cantApariciones = 1;
+            res = obtenerDiccionario(dic, palabra, &cantApariciones, sizeof(int), cmpStrings);
 
-            ponerDiccionario(dic, palabra, infoPal.palabra, sizeof(tPalabra), cmpPalabra, actualizarPalabra);
+            if(res) ///Existe el elemento, sumamos su nueva aparicion.
+                cantApariciones++;
+            else   ///No existe, tenemos que setear su aparicion en 1.
+                cantApariciones = 1;
+
+            ponerDiccionario(dic, palabra, TAM_PAL, &cantApariciones, sizeof(int), cmpStrings);
+
             txt->cantPalabras++;
         }
     }
@@ -103,10 +108,11 @@ int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt)
     return TODO_OK;
 }
 
-void mostrarPalabra(void* e, void* p)
+void mostrarPalabra(void* c, void* e, void* p)
 {
-    tPalabra* pal = (tPalabra*)e;
-    printf("%s: %d\n", pal->palabra, pal->cantApariciones);
+    char* palabra = (char*)c;
+    int* apariciones = (int*)e;
+    printf("%s: %d\n", palabra, (*apariciones));
 }
 
 void mostrarPalabraPodio(void* e, void* p)
@@ -115,10 +121,11 @@ void mostrarPalabraPodio(void* e, void* p)
     printf("%s(%d)\n", pal->palabra, pal->cantApariciones);
 }
 
-void mostrarPalabraBucket(void* e, void* p)
+void mostrarPalabraBucket(void* c, void* e, void* p)
 {
-    tPalabra* pal = (tPalabra*)e;
-    printf("%s(%d) \t", pal->palabra, pal->cantApariciones);
+    char* palabra = (char*)c;
+    int* apariciones = (int*)e;
+    printf("%s(%d) \t", palabra, (*apariciones));
 }
 
 void mostrarMenu()
@@ -200,13 +207,20 @@ void mostrarPodioPalabras(tDiccionario* dic, tPodio* podioPalabras, int n)
 
     printf("\nEl podio con las %d palabras mas utilizadas en el texto es: \n", n);
     podioCrear(podioPalabras, n);
-    //recorrerDiccionarioInsertarPodio(dic, podioPalabras, cmpApariciones);
     recorrerDiccionario(dic, accionPodio, podioPalabras);
     podioMostrar(podioPalabras, cmpApariciones, mostrarPalabraPodio);
     podioVaciar(podioPalabras);
 }
 
-void accionPodio (void *elem, void* param)
+void accionPodio(void* clave, void* elem, void* param)
 {
-    podioInsertarOrdenado(param, elem, sizeof(tPalabra), cmpApariciones);
+    tPalabra pal;
+
+    char* palabra = (char*)clave;
+    int* apariciones = (int*)elem;
+
+    strcpy(pal.palabra, palabra);
+    pal.cantApariciones = *apariciones;
+
+    podioInsertarOrdenado(param, &pal, sizeof(tPalabra), cmpApariciones);
 }

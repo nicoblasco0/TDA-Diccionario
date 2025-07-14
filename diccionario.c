@@ -12,7 +12,7 @@ int crearDiccionario(tDiccionario* dic, size_t capMax, FuncionHash hashFunc)
     //Inicializamos cada una de las listas
     for(int i = 0 ; i < capMax ; i++)
     {
-        listaCrear(&(dic->ini[i]));
+        listaDicCrear(&(dic->ini[i]));
     }
 
     return TODO_OK;
@@ -22,7 +22,7 @@ void vaciarDiccionario(tDiccionario* dic)
 {
     for(int i = 0 ; i < dic->capMax ; i++)
     {
-        listaVaciar(&(dic->ini[i]));
+        listaDicVaciar(&(dic->ini[i]));
     }
 
     free(dic->ini);
@@ -35,11 +35,11 @@ void recorrerDiccionario(tDiccionario* dic, Accion accion, void* param)
 {
     for(int i = 0 ; i < dic->capMax ; i++)
     {
-        listaRecorrer(&(dic->ini[i]), accion, param);
+        listaDicRecorrer(&(dic->ini[i]), accion, param);
     }
 }
 
-int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem, Cmp cmp, Actualizar actualizar)
+int ponerDiccionario(tDiccionario* dic, void* clave, size_t tamClave, void* elem, size_t tamElem, Cmp cmp)
 {
     size_t hashValue, indice;
 
@@ -48,7 +48,7 @@ int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem,
     indice = hashValue % dic->capMax;
 
     //Ahora insertamos el elemento en esa lista
-    return listaInsertarOrdenado(&(dic->ini[indice]), elem, tamElem, cmp, actualizar);
+    return listaDicInsertarOrdenado(&(dic->ini[indice]), clave, tamClave, elem, tamElem, cmp);
 }
 
 int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp)
@@ -58,7 +58,7 @@ int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp)
     hashValue = dic->hashFunc(clave);
     indice = hashValue % dic->capMax;
 
-    return listaSacarOrdenado(&(dic->ini[indice]), clave, cmp);
+    return listaDicSacarOrdenado(&(dic->ini[indice]), clave, cmp);
 }
 
 int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem, Cmp cmp)
@@ -68,7 +68,7 @@ int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem,
     hashValue = dic->hashFunc(clave);
     indice = hashValue % dic->capMax;
 
-    return listaObtenerOrdenado(&(dic->ini[indice]), pd, tamElem, cmp);
+    return listaDicObtenerOrdenado(&(dic->ini[indice]), clave, pd, tamElem, cmp);
 }
 
 bool esPrimo(size_t n)
@@ -129,7 +129,7 @@ void mostrarBucketsDiccionario(tDiccionario* dic, Accion accion)
     for(int i = 0 ; i < dic->capMax ; i++)
     {
         printf("bucket %d: ", i+1);
-        listaRecorrer(&(dic->ini[i]), accion, NULL);
+        listaDicRecorrer(&(dic->ini[i]), accion, NULL);
         printf("\n");
     }
 }

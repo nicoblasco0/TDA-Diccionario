@@ -95,7 +95,7 @@ int podioInsertarOrdenado(tPodio* pp, void* pd, size_t tamElem, Cmp cmp)
 
 
 
-void podioRecorrer(tPodio * pp, Accion accion, void* param)
+void podioRecorrer(tPodio * pp, AccionPod accion, void* param)
 {
     tNodoPod **pl = &(pp->lista);
     while(*pl)
@@ -105,7 +105,7 @@ void podioRecorrer(tPodio * pp, Accion accion, void* param)
     }
 }
 
-void podioMostrar(tPodio* pp, Cmp cmp, Accion mostrar)
+void podioMostrar(tPodio* pp, Cmp cmp, AccionPod mostrar)
 {
     unsigned difEntrePos = 0;
     unsigned pos = 1;

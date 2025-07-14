@@ -21,13 +21,13 @@ typedef struct
 
 
 typedef int (*Cmp)(const void*, const void*);
-typedef void (*Accion)(void* elem, void* param);
+typedef void (*AccionPod)(void* elem, void* param);
 
 void podioCrear(tPodio* pp, size_t n);
 void podioVaciar(tPodio* pp);
-void podioRecorrer(tPodio * pp, Accion accion, void* param);
+void podioRecorrer(tPodio * pp, AccionPod accion, void* param);
 int podioInsertarOrdenado(tPodio* pp, void * pd, size_t tamElem, Cmp cmp);
-void podioMostrar(tPodio* pp, Cmp cmp, Accion mostrar);
+void podioMostrar(tPodio* pp, Cmp cmp, AccionPod mostrar);
 
 
 #endif // PODIO_H_INCLUDED

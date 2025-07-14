@@ -19,7 +19,7 @@ typedef struct
 int crearDiccionario(tDiccionario* dic, size_t capMax, FuncionHash hashFunc);
 void vaciarDiccionario(tDiccionario* dic);
 void recorrerDiccionario(tDiccionario* dic, Accion accion, void* param);
-int ponerDiccionario(tDiccionario* dic, void* clave, void* elem, size_t tamElem, Cmp cmp, Actualizar actualizar);
+int ponerDiccionario(tDiccionario* dic, void* clave, size_t tamClave, void* elem, size_t tamElem, Cmp cmp);
 int sacarDiccionario(tDiccionario* dic, void* clave, Cmp cmp);
 int obtenerDiccionario(tDiccionario* dic, void* clave, void* pd, size_t tamElem, Cmp cmp);
 bool esPrimo(size_t n);

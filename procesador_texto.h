@@ -24,18 +24,18 @@ typedef struct
 
 bool proximaPalabra(char** cad, char* pal, tTexto* t);
 size_t calcularCapacidadDiccionario(const char* rutaArchivo);    ///Retorna 0 si el archivo no existe, falla su apertura o esta vacio.
-int cmpPalabra(const void* e1, const void* e2);
+int cmpStrings(const void* e1, const void* e2);
 int cmpApariciones(const void* e1, const void* e2);
 void actualizarPalabra(void* e1, const void* e2); ///Con e2 actualizamos e1
 int procesarTexto(const char* rutaTxt, tDiccionario* dic, tTexto* txt);
-void mostrarPalabra(void* e, void* p);
+void mostrarPalabra(void* c, void* e, void* p);
 void mostrarPalabraPodio(void* e, void* p);
-void mostrarPalabraBucket(void* e, void* p);
+void mostrarPalabraBucket(void* c, void* e, void* p);
 void mostrarMenu();
 int procesarArchivo(tDiccionario* dic, tTexto* text);
 void mostrarMensajeError(int cod);
 void mostrarEstadisticas(tDiccionario* dic, tTexto* text);
 void mostrarPodioPalabras(tDiccionario* dic, tPodio* podioPalabras, int n);
-void accionPodio (void *elem, void* param);
+void accionPodio(void* clave, void *elem, void* param);
 
 #endif // PROCESADOR_TEXTO
